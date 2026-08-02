@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#ff6fb6">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no">
+  <title>Birthday Love Story ✨</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="bg bg-a"></div>
+  <div class="bg bg-b"></div>
+  <div class="bg bg-c"></div>
+  <div class="grain" aria-hidden="true"></div>
+  <canvas id="fx" class="fx" aria-hidden="true"></canvas>
+  <div id="sparkLayer" class="spark-layer" aria-hidden="true"></div>
+
+  <audio id="music" preload="metadata" src="music.m4a"></audio>
+
+  <main class="app">
+    <!-- Intro -->
+    <section class="screen active" data-screen="intro">
+      <div class="screen-bg intro-bg"></div>
+      <div class="screen-overlay"></div>
+      <div class="screen-inner intro-inner glass">
+        <div class="intro-badge">A dreamy little surprise</div>
+        <h1 id="introTitle" class="big-title">Happy Birthday, Mam ❤️</h1>
+        <p class="lead">A magical birthday story with memories, music, sparkles, and one final question.</p>
+        <p class="subtle">Tap once to begin the story — the music will start with the magic.</p>
+        <div class="button-row">
+          <button id="startBtn" class="primary-btn" type="button">Start the Magic ✨</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Menu -->
+    <section class="screen" data-screen="menu">
+      <div class="screen-bg menu-bg"></div>
+      <div class="screen-inner menu-inner glass">
+        <div class="top-bar">
+          <div class="tiny-pill">For Simmi</div>
+          <div class="tiny-pill">From Mufasaa</div>
+        </div>
+        <div class="ribbon">choose an envelope</div>
+        <h2 class="section-title">Pick a surprise</h2>
+        <p class="lead narrow">Every card opens a full-screen moment with animation, music, and a beautiful ending photo.</p>
+
+        <div class="card-grid">
+          <button class="choice-card" data-go="memories" type="button">
+            <span class="emoji">📸</span>
+            <strong>Our Memories</strong>
+            <small>Swipe through the photos</small>
+          </button>
+          <button class="choice-card" data-go="letter" type="button">
+            <span class="emoji">💌</span>
+            <strong>My Letter</strong>
+            <small>A birthday message</small>
+          </button>
+          <button class="choice-card" data-go="birthday" type="button">
+            <span class="emoji">🎂</span>
+            <strong>Happy Birthday Mam</strong>
+            <small>Cake, candles and fireworks</small>
+          </button>
+          <button class="choice-card" data-go="surprise" type="button">
+            <span class="emoji">🎁</span>
+            <strong>One More Surprise</strong>
+            <small>Bright cinematic reveal</small>
+          </button>
+        </div>
+
+        <div class="footer-note">The final question comes at the very end ❤️</div>
+      </div>
+    </section>
+
+    <!-- Memories -->
+    <section class="screen" data-screen="memories">
+      <div class="screen-bg soft-bg"></div>
+      <div class="screen-inner panel glass">
+        <div class="panel-head">
+          <button class="icon-btn" data-back="menu" type="button">←</button>
+          <div>
+            <h2>Our Memories</h2>
+            <p>Swipe or use arrows to move through the moments.</p>
+          </div>
+        </div>
+
+        <div class="slideshow">
+          <button class="slide-nav" id="prevMem" type="button" aria-label="Previous">‹</button>
+          <div class="slide-viewport">
+            <div id="slideTrack" class="slide-track">
+              <article class="slide">
+                <img src="memory-1.jpg" alt="Memory 1">
+                <div class="slide-caption">Slide 1 · A beautiful recap of our journey together.</div>
+              </article>
+              <article class="slide">
+                <img src="memory-2.jpg" alt="Memory 2">
+                <div class="slide-caption">Slide 2 · The moments that always stay close to my heart.</div>
+              </article>
+              <article class="slide">
+                <img src="memory-3.jpg" alt="Memory 3">
+                <div class="slide-caption">Slide 3 · Team moments, smiles, and endless vibes.</div>
+              </article>
+              <article class="slide">
+                <img src="memory-4.jpg" alt="Memory 4">
+                <div class="slide-caption">Slide 4 · The memories that make the story feel alive.</div>
+              </article>
+            </div>
+          </div>
+          <button class="slide-nav" id="nextMem" type="button" aria-label="Next">›</button>
+        </div>
+        <div class="dots" id="memDots"></div>
+
+        <div class="memory-end glass">
+          <img src="ending-1.jpg" alt="Ending memory photo" class="end-photo">
+          <div class="end-copy">
+            <h3>Every slide ends in my heart ❤️</h3>
+            <p>Some memories do not fade. They glow quietly and stay forever.</p>
+          </div>
+        </div>
+
+        <div class="button-row">
+          <button class="primary-btn" data-next="letter" type="button">Continue to Letter</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Letter -->
+    <section class="screen" data-screen="letter">
+      <div class="screen-bg soft-bg alt"></div>
+      <div class="screen-inner panel glass">
+        <div class="panel-head">
+          <button class="icon-btn" data-back="menu" type="button">←</button>
+          <div>
+            <h2>My Letter</h2>
+            <p>A sweet birthday note written with love.</p>
+          </div>
+        </div>
+
+        <div class="letter-wrap">
+          <div class="envelope">💌</div>
+          <div class="paper">
+            <h3>Happy Birthday, Mam ❤️</h3>
+            <p id="letterText"></p>
+          </div>
+        </div>
+
+        <div class="memory-end glass">
+          <img src="ending-2.png" alt="Ending letter photo" class="end-photo">
+          <div class="end-copy">
+            <h3>For all the smiles you bring ✨</h3>
+            <p>May this year bring you peace, success, laughter, and every beautiful thing you deserve.</p>
+          </div>
+        </div>
+
+        <div class="button-row">
+          <button class="primary-btn" data-next="birthday" type="button">Continue to Birthday</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Birthday -->
+    <section class="screen" data-screen="birthday">
+      <div class="screen-bg birthday-bg"></div>
+      <div class="screen-overlay"></div>
+      <div class="screen-inner panel glass">
+        <div class="panel-head">
+          <button class="icon-btn" data-back="menu" type="button">←</button>
+          <div>
+            <h2>Happy Birthday Mam</h2>
+            <p>Ballons, cake, candles and glittering lights.</p>
+          </div>
+        </div>
+
+        <div class="birthday-stage">
+          <div class="balloons">🎈 🎈 🎈</div>
+          <div class="cake-area">
+            <div class="halo"></div>
+            <div class="cake">
+              <div class="layer top"></div>
+              <div class="layer mid"></div>
+              <div class="layer base"></div>
+              <div class="candles"><span></span><span></span><span></span></div>
+            </div>
+          </div>
+          <h3 id="birthdayTitle" class="birthday-title"></h3>
+          <p class="lead narrow">I hope your day is filled with happiness, warmth, and everything beautiful.</p>
+        </div>
+
+        <div class="memory-end glass">
+          <img src="ending-3.jpg" alt="Ending birthday photo" class="end-photo">
+          <div class="end-copy">
+            <h3>A birthday glow made just for you 🎂</h3>
+            <p>Let the candles shine, let the hearts float, and let the wishes come true.</p>
+          </div>
+        </div>
+
+        <div class="button-row">
+          <button class="primary-btn" data-next="surprise" type="button">Continue to Surprise</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Surprise -->
+    <section class="screen" data-screen="surprise">
+      <div class="screen-bg moon-bg-soft"></div>
+      <div class="screen-overlay"></div>
+      <div class="screen-inner panel glass">
+        <div class="panel-head">
+          <button class="icon-btn" data-back="menu" type="button">←</button>
+          <div>
+            <h2>One More Surprise</h2>
+            <p>Golden light, petals, and a cinematic reveal.</p>
+          </div>
+        </div>
+
+        <div class="surprise-stage">
+          <div class="orb"></div>
+          <div id="petals" class="petals" aria-hidden="true"></div>
+          <p id="surpriseText" class="surprise-text"></p>
+        </div>
+
+        <div class="memory-end glass">
+          <img src="ending-4.jpg" alt="Ending surprise photo" class="end-photo">
+          <div class="end-copy">
+            <h3>Every surprise leads to you ✨</h3>
+            <p>Some moments feel like magic because they are made with love.</p>
+          </div>
+        </div>
+
+        <div class="button-row">
+          <button class="primary-btn" data-next="valentine" type="button">Open Final Question</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Valentine -->
+    <section class="screen" data-screen="valentine">
+      <div class="screen-bg valentine-bg"></div>
+      <div class="screen-overlay"></div>
+      <div class="screen-inner panel glass">
+        <div class="panel-head">
+          <button class="icon-btn" data-back="menu" type="button">←</button>
+          <div>
+            <h2>One Last Question</h2>
+            <p>The final little moment.</p>
+          </div>
+        </div>
+
+        <div class="valentine-box glass">
+          <h3>Will you be my valentine?</h3>
+          <p>Choose the answer that makes my heart happiest.</p>
+          <div class="valentine-actions">
+            <button id="yesBtn" class="yes-btn" type="button">YES 💖</button>
+            <button id="noBtn" class="no-btn" type="button">NO 😢</button>
+          </div>
+          <div id="noMsg" class="no-msg">The no button is shy 🥺</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Yes -->
+    <section class="screen" data-screen="yes">
+      <div class="screen-bg intro-bg"></div>
+      <div class="screen-overlay"></div>
+      <div class="screen-inner panel glass yes-panel">
+        <div class="celebration-ring"></div>
+        <div class="heart-big">💖</div>
+        <h2 id="yesTitle" class="big-title">I knew you would say yes ❤️</h2>
+        <p id="yesText" class="yes-text"></p>
+        <div class="mini-gallery">
+          <img src="ending-1.jpg" alt="">
+          <img src="ending-2.png" alt="">
+          <img src="ending-3.jpg" alt="">
+          <img src="ending-4.jpg" alt="">
+        </div>
+        <div class="button-row">
+          <button class="primary-btn" data-next="menu" type="button">Replay Our Story ✨</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="transition" class="transition" aria-hidden="true"></div>
+  <script src="script.js"></script>
+</body>
+</html>
