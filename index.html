@@ -14,34 +14,32 @@
   <div class="bg bg-b"></div>
   <div class="bg bg-c"></div>
   <div class="grain" aria-hidden="true"></div>
+  <div id="decorLayer" class="decor-layer" aria-hidden="true"></div>
   <canvas id="fx" class="fx" aria-hidden="true"></canvas>
   <div id="sparkLayer" class="spark-layer" aria-hidden="true"></div>
 
   <audio id="music" preload="metadata" src="music.m4a"></audio>
 
   <main class="app">
-    <!-- Intro -->
     <section class="screen active" data-screen="intro">
       <div class="screen-bg intro-bg"></div>
       <div class="screen-overlay"></div>
-      <div class="screen-inner intro-inner glass">
-        <div class="intro-badge">A dreamy little surprise</div>
+      <div class="screen-shell glass intro-shell">
+        <div class="intro-chip">A dreamy little surprise</div>
         <h1 id="introTitle" class="big-title">Happy Birthday, Mam ❤️</h1>
         <p class="lead">A magical birthday story with memories, music, sparkles, and one final question.</p>
         <p class="subtle">Tap once to begin the story — the music will start with the magic.</p>
-        <div class="button-row">
-          <button id="startBtn" class="primary-btn" type="button">Start the Magic ✨</button>
-        </div>
+        <button id="startBtn" class="primary-btn" type="button">Start the Magic ✨</button>
       </div>
     </section>
 
-    <!-- Menu -->
     <section class="screen" data-screen="menu">
       <div class="screen-bg menu-bg"></div>
-      <div class="screen-inner menu-inner glass">
-        <div class="top-bar">
-          <div class="tiny-pill">For Simmi</div>
-          <div class="tiny-pill">From Mufasaa</div>
+      <div class="screen-overlay"></div>
+      <div class="screen-shell glass menu-shell">
+        <div class="top-row">
+          <span class="tiny-pill">For Simmi</span>
+          <span class="tiny-pill">From Mufasaa</span>
         </div>
         <div class="ribbon">choose an envelope</div>
         <h2 class="section-title">Pick a surprise</h2>
@@ -51,7 +49,7 @@
           <button class="choice-card" data-go="memories" type="button">
             <span class="emoji">📸</span>
             <strong>Our Memories</strong>
-            <small>Swipe through the photos</small>
+            <small>Swipe through the moments</small>
           </button>
           <button class="choice-card" data-go="letter" type="button">
             <span class="emoji">💌</span>
@@ -74,15 +72,15 @@
       </div>
     </section>
 
-    <!-- Memories -->
     <section class="screen" data-screen="memories">
       <div class="screen-bg soft-bg"></div>
-      <div class="screen-inner panel glass">
+      <div class="screen-overlay"></div>
+      <div class="screen-shell glass panel-shell">
         <div class="panel-head">
           <button class="icon-btn" data-back="menu" type="button">←</button>
           <div>
             <h2>Our Memories</h2>
-            <p>Swipe or use arrows to move through the moments.</p>
+            <p>Swipe or use the arrows to move through the slides.</p>
           </div>
         </div>
 
@@ -91,20 +89,36 @@
           <div class="slide-viewport">
             <div id="slideTrack" class="slide-track">
               <article class="slide">
-                <img src="memory-1.jpg" alt="Memory 1">
-                <div class="slide-caption">Slide 1 · A beautiful recap of our journey together.</div>
+                <img src="mem-1.jpg" alt="Memory 1">
+                <div class="slide-caption">Slide 1 · A beautiful recap of your story together.</div>
               </article>
               <article class="slide">
-                <img src="memory-2.jpg" alt="Memory 2">
-                <div class="slide-caption">Slide 2 · The moments that always stay close to my heart.</div>
+                <img src="mem-2.jpg" alt="Memory 2">
+                <div class="slide-caption">Slide 2 · The moments that always stay close to the heart.</div>
               </article>
               <article class="slide">
-                <img src="memory-3.jpg" alt="Memory 3">
+                <img src="mem-3.jpg" alt="Memory 3">
                 <div class="slide-caption">Slide 3 · Team moments, smiles, and endless vibes.</div>
               </article>
               <article class="slide">
-                <img src="memory-4.jpg" alt="Memory 4">
+                <img src="mem-4.jpg" alt="Memory 4">
                 <div class="slide-caption">Slide 4 · The memories that make the story feel alive.</div>
+              </article>
+              <article class="slide">
+                <img src="mem-5.jpg" alt="Memory 5">
+                <div class="slide-caption">Slide 5 · You always make everything look brighter.</div>
+              </article>
+              <article class="slide">
+                <img src="mem-6.jpg" alt="Memory 6">
+                <div class="slide-caption">Slide 6 · Beautiful memories that never lose their glow.</div>
+              </article>
+              <article class="slide">
+                <img src="mem-7.jpg" alt="Memory 7">
+                <div class="slide-caption">Slide 7 · A little comparison, but in my heart you always win.</div>
+              </article>
+              <article class="slide">
+                <img src="mem-8.jpg" alt="Memory 8">
+                <div class="slide-caption">Slide 8 · The story continues with more love and magic.</div>
               </article>
             </div>
           </div>
@@ -113,7 +127,7 @@
         <div class="dots" id="memDots"></div>
 
         <div class="memory-end glass">
-          <img src="ending-1.jpg" alt="Ending memory photo" class="end-photo">
+          <img src="end-1.jpg" alt="Ending memory photo" class="end-photo">
           <div class="end-copy">
             <h3>Every slide ends in my heart ❤️</h3>
             <p>Some memories do not fade. They glow quietly and stay forever.</p>
@@ -126,10 +140,10 @@
       </div>
     </section>
 
-    <!-- Letter -->
     <section class="screen" data-screen="letter">
       <div class="screen-bg soft-bg alt"></div>
-      <div class="screen-inner panel glass">
+      <div class="screen-overlay"></div>
+      <div class="screen-shell glass panel-shell">
         <div class="panel-head">
           <button class="icon-btn" data-back="menu" type="button">←</button>
           <div>
@@ -147,7 +161,7 @@
         </div>
 
         <div class="memory-end glass">
-          <img src="ending-2.png" alt="Ending letter photo" class="end-photo">
+          <img src="end-2.jpg" alt="Ending letter photo" class="end-photo">
           <div class="end-copy">
             <h3>For all the smiles you bring ✨</h3>
             <p>May this year bring you peace, success, laughter, and every beautiful thing you deserve.</p>
@@ -160,11 +174,10 @@
       </div>
     </section>
 
-    <!-- Birthday -->
     <section class="screen" data-screen="birthday">
       <div class="screen-bg birthday-bg"></div>
       <div class="screen-overlay"></div>
-      <div class="screen-inner panel glass">
+      <div class="screen-shell glass panel-shell">
         <div class="panel-head">
           <button class="icon-btn" data-back="menu" type="button">←</button>
           <div>
@@ -174,7 +187,7 @@
         </div>
 
         <div class="birthday-stage">
-          <div class="balloons">🎈 🎈 🎈</div>
+          <div class="balloons">🎈 🎈 🎈 🎈</div>
           <div class="cake-area">
             <div class="halo"></div>
             <div class="cake">
@@ -189,7 +202,7 @@
         </div>
 
         <div class="memory-end glass">
-          <img src="ending-3.jpg" alt="Ending birthday photo" class="end-photo">
+          <img src="end-3.jpg" alt="Ending birthday photo" class="end-photo">
           <div class="end-copy">
             <h3>A birthday glow made just for you 🎂</h3>
             <p>Let the candles shine, let the hearts float, and let the wishes come true.</p>
@@ -202,11 +215,10 @@
       </div>
     </section>
 
-    <!-- Surprise -->
     <section class="screen" data-screen="surprise">
       <div class="screen-bg moon-bg-soft"></div>
       <div class="screen-overlay"></div>
-      <div class="screen-inner panel glass">
+      <div class="screen-shell glass panel-shell">
         <div class="panel-head">
           <button class="icon-btn" data-back="menu" type="button">←</button>
           <div>
@@ -222,7 +234,7 @@
         </div>
 
         <div class="memory-end glass">
-          <img src="ending-4.jpg" alt="Ending surprise photo" class="end-photo">
+          <img src="end-4.jpg" alt="Ending surprise photo" class="end-photo">
           <div class="end-copy">
             <h3>Every surprise leads to you ✨</h3>
             <p>Some moments feel like magic because they are made with love.</p>
@@ -235,11 +247,10 @@
       </div>
     </section>
 
-    <!-- Valentine -->
     <section class="screen" data-screen="valentine">
       <div class="screen-bg valentine-bg"></div>
       <div class="screen-overlay"></div>
-      <div class="screen-inner panel glass">
+      <div class="screen-shell glass panel-shell">
         <div class="panel-head">
           <button class="icon-btn" data-back="menu" type="button">←</button>
           <div>
@@ -260,20 +271,19 @@
       </div>
     </section>
 
-    <!-- Yes -->
     <section class="screen" data-screen="yes">
       <div class="screen-bg intro-bg"></div>
       <div class="screen-overlay"></div>
-      <div class="screen-inner panel glass yes-panel">
+      <div class="screen-shell glass panel-shell yes-panel">
         <div class="celebration-ring"></div>
         <div class="heart-big">💖</div>
         <h2 id="yesTitle" class="big-title">I knew you would say yes ❤️</h2>
         <p id="yesText" class="yes-text"></p>
         <div class="mini-gallery">
-          <img src="ending-1.jpg" alt="">
-          <img src="ending-2.png" alt="">
-          <img src="ending-3.jpg" alt="">
-          <img src="ending-4.jpg" alt="">
+          <img src="end-1.jpg" alt="Final memory 1">
+          <img src="end-2.jpg" alt="Final memory 2">
+          <img src="end-3.jpg" alt="Final memory 3">
+          <img src="end-4.jpg" alt="Final memory 4">
         </div>
         <div class="button-row">
           <button class="primary-btn" data-next="menu" type="button">Replay Our Story ✨</button>

@@ -1,4 +1,4 @@
-Birthday Love Story website.
+Ultra beautiful birthday / valentine website.
 
 Files:
 - index.html
@@ -6,13 +6,17 @@ Files:
 - script.js
 - music.m4a
 - intro-bg.jpg
-- memory-1.jpg
-- memory-2.jpg
-- memory-3.jpg
-- memory-4.jpg
-- ending-1.jpg
-- ending-2.png
-- ending-3.jpg
-- ending-4.jpg
+- mem-1.jpg
+- mem-2.jpg
+- mem-3.jpg
+- mem-4.jpg
+- mem-5.jpg
+- mem-6.jpg
+- mem-7.jpg
+- mem-8.jpg
+- end-1.jpg
+- end-2.jpg
+- end-3.jpg
+- end-4.jpg
 
 Upload everything to the GitHub repository root.

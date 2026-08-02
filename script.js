@@ -1,10 +1,10 @@
-
 (() => {
   "use strict";
 
   const screens = [...document.querySelectorAll(".screen")];
   const audio = document.getElementById("music");
   const sparkLayer = document.getElementById("sparkLayer");
+  const decorLayer = document.getElementById("decorLayer");
   const transition = document.getElementById("transition");
   const fx = document.getElementById("fx");
   const ctx = fx?.getContext("2d");
@@ -29,20 +29,24 @@
 
   const colors = ["#ff6fb6", "#ffd56d", "#ffffff", "#ff9bd0", "#ff7aa7", "#ffe8ae"];
   const symbols = ["♥", "✦", "❀", "✿", "✺", "✧"];
+  const balloons = ["🎈", "🎈", "🎈", "💗", "🌹"];
+  const roses = ["🌹", "🌹", "🌹", "🌷"];
   const rand = (a, b) => Math.random() * (b - a) + a;
   const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
   let current = "intro";
   let slideIndex = 0;
-  let slideCount = 4;
+  let slideCount = 8;
   let stars = [];
   let starLoopStarted = false;
   let ambientTimer = null;
+  let decorTimer = null;
   let letterStarted = false;
   let birthdayStarted = false;
   let surpriseStarted = false;
   let yesStarted = false;
   let noBusy = false;
+  let isPlaying = false;
 
   function resizeCanvas() {
     if (!fx || !ctx) return;
@@ -56,7 +60,7 @@
 
   function makeStars() {
     stars = [];
-    for (let i = 0; i < 120; i++) {
+    for (let i = 0; i < 128; i++) {
       stars.push({
         x: Math.random() * window.innerWidth,
         y: Math.random() * window.innerHeight,
@@ -137,6 +141,35 @@
     );
   }
 
+  function floatDecor() {
+    if (!decorLayer) return;
+    const isBalloon = Math.random() < 0.45;
+    const isHeart = !isBalloon && Math.random() < 0.45;
+    const n = document.createElement("span");
+    n.className = isBalloon ? "balloon" : (isHeart ? "heart-particle" : "rose");
+    n.textContent = isBalloon ? pick(balloons) : (isHeart ? "💗" : pick(roses));
+    n.style.left = `${rand(0, 100)}vw`;
+    n.style.top = isBalloon ? `${rand(70, 110)}vh` : `${rand(-10, 30)}vh`;
+    n.style.fontSize = isBalloon ? `${rand(18, 30)}px` : `${rand(14, 30)}px`;
+    n.style.setProperty("--dur", `${rand(8, 16)}s`);
+    n.style.setProperty("--dx", `${rand(-40, 40)}px`);
+    n.style.setProperty("--dy", isBalloon ? `${-rand(180, 380)}px` : `${rand(160, 420)}px`);
+    n.style.transform = `rotate(${rand(-18,18)}deg)`;
+    decorLayer.appendChild(n);
+    setTimeout(() => n.remove(), 16500);
+  }
+
+  function startDecor() {
+    if (decorTimer) return;
+    decorTimer = setInterval(() => {
+      // burst of floating balloons and falling roses
+      for (let i = 0; i < 3; i++) floatDecor();
+    }, 520);
+    setTimeout(() => {
+      for (let i = 0; i < 10; i++) floatDecor();
+    }, 100);
+  }
+
   function typewrite(text, el, speed = 30) {
     if (!el) return;
     el.textContent = "";
@@ -152,8 +185,6 @@
   function setActive(name) {
     current = name;
     screens.forEach((s) => s.classList.toggle("active", s.dataset.screen === name));
-    if (name !== "memories") slideIndex = 0;
-    if (name === "memories") renderDots();
   }
 
   function showTransition(next, delay = 500) {
@@ -180,14 +211,14 @@
       else audio.addEventListener("loadedmetadata", setEnd, { once: true });
     }
     audio.volume = 0.78;
+    isPlaying = true;
     return audio.play();
   }
 
-  function maybePlay() {
+  function pauseAudio() {
     if (!audio) return;
-    if (audio.paused) {
-      playAudio(false).catch(() => {});
-    }
+    audio.pause();
+    isPlaying = false;
   }
 
   function makeDots() {
@@ -225,15 +256,11 @@
     }
   }
 
-  function startAmbient() {
-    if (ambientTimer) return;
-    ambientTimer = setInterval(ambient, 560);
-    setTimeout(ambient, 120);
-  }
-
   function startIntro() {
     startStarfield();
-    startAmbient();
+    startDecor();
+    ambientTimer = setInterval(ambient, 520);
+    setTimeout(ambient, 120);
     typewrite("Happy Birthday, Mam ❤️", introTitle, 44);
   }
 
@@ -242,7 +269,7 @@
     letterStarted = true;
     const text = [
       "Happy Birthday, Mam ❤️",
-      "Today is your special day, and I wanted this little story to feel warm, bright, and full of love for you.",
+      "Today is your special day, and I wanted this story to feel warm, bright, and full of love for you.",
       "May this year bring you beautiful surprises, peaceful days, genuine smiles, and dreams that quietly come true.",
       "Thank you for every conversation, every laugh, every memory, and every small moment that became special because of you.",
       "You deserve happiness that lasts, blessings that grow, and a life filled with light.",
@@ -259,30 +286,9 @@
     burst(window.innerWidth * 0.5, window.innerHeight * 0.35, 24);
   }
 
-  function petals() {
-    const layer = document.getElementById("petals");
-    if (!layer) return;
-    layer.innerHTML = "";
-    for (let i = 0; i < 12; i++) {
-      const p = document.createElement("span");
-      p.textContent = Math.random() > 0.5 ? "🌸" : "💗";
-      p.style.position = "absolute";
-      p.style.left = `${rand(0, 100)}%`;
-      p.style.top = `${rand(-20, 10)}%`;
-      p.style.fontSize = `${rand(14, 26)}px`;
-      p.style.opacity = `${rand(0.45, 0.9)}`;
-      p.style.animation = `rise ${rand(8, 13)}s linear infinite`;
-      p.style.setProperty("--dx", `${rand(-40, 80)}px`);
-      p.style.setProperty("--dy", `${rand(140, 260)}px`);
-      p.style.setProperty("--rot", `${rand(-180, 180)}deg`);
-      layer.appendChild(p);
-    }
-  }
-
   function startSurprise() {
     if (surpriseStarted) return;
     surpriseStarted = true;
-    petals();
     const text = "Some moments feel like magic because they are made with love. Every heartbeat, every memory, every smile — they all lead back to you. ✨";
     typewrite(text, surpriseText, 18);
   }
@@ -290,8 +296,6 @@
   function showYes() {
     if (yesStarted) return;
     yesStarted = true;
-    startStarfield();
-    startAmbient();
     const msg = [
       "I knew you would say yes ❤️",
       "",
@@ -306,13 +310,13 @@
       "Thank you for existing.",
       "",
       "Forever your favorite person ❤️"
-    ].join("\n");
+    ].join("\n\n");
     typewrite(msg, yesText, 12);
     burst(window.innerWidth * 0.5, window.innerHeight * 0.28, 30);
   }
 
   function moveNo() {
-    if (!noBtn || noBusy) return;
+    if (!noBtn) return;
     const box = noBtn.closest(".valentine-actions");
     if (!box) return;
     const r = box.getBoundingClientRect();
@@ -343,11 +347,8 @@
         if (next === "letter") startLetter();
         if (next === "birthday") startBirthday();
         if (next === "surprise") startSurprise();
-        if (next === "valentine") {
-          showTransition("valentine");
-        } else {
-          showTransition(next);
-        }
+        if (next === "valentine") showTransition("valentine");
+        else showTransition(next);
       });
     });
 
@@ -356,28 +357,14 @@
         showTransition(btn.dataset.back);
       });
     });
-
-    document.querySelectorAll(".primary-btn").forEach((btn) => {
-      if (btn.id === "startBtn") return;
-      btn.addEventListener("click", () => {
-        const next = btn.dataset.next;
-        if (next === "letter") startLetter();
-        if (next === "birthday") startBirthday();
-        if (next === "surprise") startSurprise();
-        if (next === "menu") showTransition("menu");
-        if (next === "valentine") showTransition("valentine");
-      });
-    });
   }
 
   function setupMemories() {
     makeDots();
-    if (slideTrack) {
-      slideTrack.addEventListener("touchstart", (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
-      slideTrack.addEventListener("touchend", (e) => { touchEndX = e.changedTouches[0].screenX; handleSwipe(); }, { passive: true });
-    }
     prevMem?.addEventListener("click", prevSlide);
     nextMem?.addEventListener("click", nextSlide);
+    slideTrack?.addEventListener("touchstart", (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+    slideTrack?.addEventListener("touchend", (e) => { touchEndX = e.changedTouches[0].screenX; handleSwipe(); }, { passive: true });
     setInterval(() => {
       if (current === "memories") nextSlide();
     }, 4200);
@@ -385,7 +372,6 @@
 
   function setupValentine() {
     yesBtn?.addEventListener("click", async () => {
-      noBusy = false;
       if (noMsg) noMsg.textContent = "❤️ Yes!";
       burst(yesBtn.getBoundingClientRect().left + 60, yesBtn.getBoundingClientRect().top + 26, 28);
       try { await playAudio(true); } catch {}
@@ -406,6 +392,7 @@
       moveNo();
       if (noMsg) noMsg.textContent = "The no button is shy 🥺";
     });
+
     setInterval(() => {
       if (current === "valentine") moveNo();
     }, 1100);
@@ -413,17 +400,9 @@
 
   function setupIntro() {
     const clickStart = async () => {
-      try { await playAudio(false); } catch {}
-      burst(window.innerWidth * 0.5, window.innerHeight * 0.38, 20);
-      showTransition("menu");
-    };
-    startBtn?.addEventListener("click", clickStart);
-  }
-
-  // Fix accidental typo handling by ignoring if not present
-  function setupIntroHandlers() {
-    const clickStart = async () => {
-      try { await playAudio(false); } catch {}
+      if (!isPlaying) {
+        try { await playAudio(false); } catch {}
+      }
       burst(window.innerWidth * 0.5, window.innerHeight * 0.38, 20);
       showTransition("menu");
     };
@@ -433,24 +412,42 @@
     }, { passive: true });
   }
 
+  function setupPlaybackRecovery() {
+    if (!audio) return;
+    audio.addEventListener("ended", () => { isPlaying = false; });
+    audio.addEventListener("pause", () => { isPlaying = false; });
+    audio.addEventListener("play", () => { isPlaying = true; });
+  }
+
   function init() {
     resizeCanvas();
     startIntro();
     setupNavButtons();
     setupMemories();
     setupValentine();
-    setupIntroHandlers();
-
-    if (yesText) yesText.textContent = "";
-    if (letterText) letterText.textContent = "";
-    if (birthdayTitle) birthdayTitle.textContent = "";
-    if (surpriseText) surpriseText.textContent = "";
+    setupIntro();
+    setupPlaybackRecovery();
 
     document.addEventListener("pointerdown", (e) => {
       if (Math.random() < 0.18) burst(e.clientX, e.clientY, 4);
     }, { passive: true });
 
     window.addEventListener("resize", resizeCanvas);
+
+    setInterval(() => {
+      if (current === "intro" || current === "menu" || current === "memories" || current === "letter" || current === "birthday" || current === "surprise" || current === "valentine" || current === "yes") {
+        const x = rand(0, window.innerWidth);
+        const y = rand(0, window.innerHeight);
+        spark(x, y, pick(symbols), rand(10, 18), pick(colors), rand(-40, 40), rand(-160, -60), rand(4.5, 7.5));
+      }
+    }, 850);
+
+    // Extra hearts/rose bursts for polish
+    setInterval(() => {
+      if (current !== "intro" && current !== "menu") return;
+      floatDecor();
+      floatDecor();
+    }, 2200);
   }
 
   init();
